@@ -2,7 +2,7 @@
 
 class FrmPaymentsListHelper extends WP_List_Table {
 
-	function FrmPaymentsListHelper() {
+	function __construct() {
 	    parent::__construct( array(
 			'plural' => 'payments',
 			'singular' => 'payment',

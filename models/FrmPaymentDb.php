@@ -4,7 +4,7 @@ class FrmPaymentDb {
    
     var $payments;
 
-    function FrmPaymentDb(){
+    function __construct(){
         global $wpdb;
         $this->payments = $wpdb->prefix . 'frm_payments';
     }
