@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: Formidable Payment
+Plugin Name: Formidable PayPal Standard
 Description: Send Posted results to PayPal
-Version: 3.02
+Version: 3.03
 Plugin URI: http://formidablepro.com/
 Author URI: http://strategy11.com
 Author: Strategy11
