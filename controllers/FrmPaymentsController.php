@@ -405,8 +405,9 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
 			'custom'        => $atts['entry_id'] . '|' . wp_hash( $atts['entry_id'] ),
 			'amount'        => $atts['amount'],
 			'item_name'     => $atts['action_settings']['paypal_item_name'],
+			'bn'            => 'FormidablePro_SP',
 		);
-        
+
 		if ( defined('ICL_LANGUAGE_CODE') ) {
 			$paypal_params['lc'] = ICL_LANGUAGE_CODE;
 		}
@@ -416,6 +417,7 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
 			$paypal_params[ $filter_field ] = apply_filters( 'frm_content', $paypal_params[ $filter_field ], $atts['form'], $atts['entry_id'] );
 		}
 
+		self::prevent_insecure_data_message( $paypal_params );
 		self::add_subscription_params( $atts, $paypal_params );
 		self::add_invoice_to_url( $atts, $paypal_params );
 
@@ -425,6 +427,12 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
 		$paypal_url = apply_filters( 'formidable_paypal_url', $paypal_url, $atts['entry_id'], $atts['form']->id );
 
 		return $paypal_url;
+	}
+
+	public static function prevent_insecure_data_message( &$paypal_params ) {
+		if ( strpos( $paypal_params['return'], 'https://' ) !== 0 ) {
+			$paypal_params['rm'] = 1;
+		}
 	}
 
 	public static function add_subscription_params( $atts, &$paypal_params ) {
@@ -751,7 +759,7 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
 
 		self::set_fields_after_payment( $form_action, $pay_vars );
 
-		$trigger_event = ( $pay_vars['completed'] ) ? 'paypal' : 'failed-paypal';
+		$trigger_event = ( $pay_vars['completed'] ) ? 'paypal' : 'paypal-failed';
 		FrmFormActionsController::trigger_actions( $trigger_event, $entry->form_id, $entry->id );
 	}
 
