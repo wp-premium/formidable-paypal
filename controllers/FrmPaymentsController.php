@@ -152,6 +152,14 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
         
 		global $wpdb;
 		$payment = $wpdb->get_row( $wpdb->prepare( "SELECT p.*, e.user_id FROM {$wpdb->prefix}frm_payments p LEFT JOIN {$wpdb->prefix}frm_items e ON (p.item_id = e.id) WHERE p.id=%d", $id ) );
+
+		$user_name = '';
+		if ( $payment->user_id ) {
+			$user = get_userdata( $payment->user_id );
+			if ( $user ) {
+				$user_name = '<a href="' . esc_url( admin_url('user-edit.php?user_id=' . $payment->user_id ) ) . '">' . $user->display_name . '</a>';
+			}
+		}
         
 		include( self::path() .'/views/payments/show.php' );
 	}
@@ -956,8 +964,7 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
         
         $frm_payment_settings = new FrmPaymentSettings();
         $currency = FrmPaymentsHelper::get_currencies($frm_payment_settings->settings->currency);
-        $users = FrmProFieldsHelper::get_user_options();
-        
+
         require(self::path() .'/views/payments/new.php');
     }
     
@@ -975,9 +982,7 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
         $frm_payment_settings = new FrmPaymentSettings();
 		$currency = FrmPaymentsHelper::get_action_setting( 'currency', array( 'payment' => $payment ) );
 		$currency = FrmPaymentsHelper::get_currencies( $currency );
-        
-        $users = FrmProFieldsHelper::get_user_options();
-        
+
         if(isset($_POST) and isset($_POST['receipt_id'])){
             foreach($payment as $var => $val){
                 if($var == 'id') continue;

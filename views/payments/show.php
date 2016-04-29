@@ -39,7 +39,7 @@
                         
                         <tr valign="top">
                             <th scope="row"><?php _e('User', 'frmpp') ?>:</th>
-                            <td><?php echo FrmProFieldsHelper::get_display_name($payment->user_id, 'display_name', array('link' => true)) ?></td>
+                            <td><?php echo esc_html( $user_name ) ?></td>
                         </tr>
                         
                         <tr valign="top">

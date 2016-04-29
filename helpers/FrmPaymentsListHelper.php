@@ -160,14 +160,13 @@ class FrmPaymentsListHelper extends WP_List_Table {
     				case 'created_at':
     				case 'begin_date':
     				case 'expire_date':
-						$datetime = strtotime( $item->$column_name );
-						if( $datetime < 1 ) {
+						if ( empty( $item->$column_name ) || strpos( $item->$column_name, '0000-00-00' ) !== false ) {
 							$val = '';
 						} else {
-							$date = date( $date_format, $datetime );
-							$val = '<abbr title="' . esc_attr( date( $date_format . ' g:i:s A', $datetime ) ) . '">' . $date . '</abbr>';
-    				    }
-
+							$date = FrmAppHelper::get_localized_date( $date_format, $item->$column_name );
+							$date_title = FrmAppHelper::get_localized_date( $date_format . ' g:i:s A', $item->$column_name );
+							$val = '<abbr title="' . esc_attr( $date_title ) . '">' . $date . '</abbr>';
+						}
     				    break;
     				default:
 						$val = $item->$column_name;
