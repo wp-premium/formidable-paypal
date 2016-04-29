@@ -258,12 +258,20 @@ class FrmPaymentsHelper{
                 'symbol_left' => '$', 'symbol_right' => '', 'symbol_padding' =>  '',
                 'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
             ),
+			'UYU' => array(
+				'name' => __('Uruguayan Peso', 'frmpp'),
+				'symbol_left' => '$U', 'symbol_right' => '', 'symbol_padding' =>  '',
+				'thousand_separator' => '.', 'decimal_separator' => ',', 'decimals' => 0,
+			),
         );
 
-        $currencies = apply_filters('frm_currencies', $currencies);
-        if ( $currency && isset($currencies[$currency]) ) {
-            return $currencies[$currency];
-        }
+		$currencies = apply_filters( 'frm_currencies', $currencies );
+		if ( $currency ) {
+			$currency = strtoupper( $currency );
+			if ( isset( $currencies[ $currency ] ) ) {
+				$currencies = $currencies[ $currency ];
+			}
+		}
             
         return $currencies;
     }
