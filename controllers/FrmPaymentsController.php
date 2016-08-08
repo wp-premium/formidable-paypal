@@ -430,7 +430,7 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
 		self::add_invoice_to_url( $atts, $paypal_params );
 
 		$paypal_url = FrmPaymentsHelper::paypal_url();
-		$paypal_url .= '?' . http_build_query( $paypal_params );
+		$paypal_url .= '?' . http_build_query( $paypal_params, '', '&' );
 
 		$paypal_url = apply_filters( 'formidable_paypal_url', $paypal_url, $atts['entry_id'], $atts['form']->id );
 
