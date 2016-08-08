@@ -316,14 +316,19 @@ class FrmPaymentsHelper{
         return $pass;
     }
 
-	public static function paypal_url() {
+	public static function base_paypal_url() {
 		$frm_payment_settings = new FrmPaymentSettings();
-		$paypal_url = 'https://www.' . ( $frm_payment_settings->settings->environment == 'sandbox' ? 'sandbox.' : '' );
-		$paypal_url .= 'paypal.com/cgi-bin/webscr/';
+		$paypal_url = 'www.' . ( $frm_payment_settings->settings->environment == 'sandbox' ? 'sandbox.' : '' );
+		$paypal_url .= 'paypal.com';
 		return $paypal_url;
 	}
 
-    public static function verify_ipn(){
+	public static function paypal_url() {
+		$paypal_url = 'https://' . self::base_paypal_url() . '/cgi-bin/webscr/';
+		return $paypal_url;
+	}
+
+    public static function verify_ipn() {
 		$paypal_url = self::paypal_url();
 
         $log_data = array('last_error' => '', 'ipn_response' => '', 'ipn_data' => array());     
@@ -336,13 +341,22 @@ class FrmPaymentsHelper{
            $value = urlencode(stripslashes($value));
            $req .= "&{$key}={$value}";
         }
-        
-        // post back to PayPal system to validate
-        $header = "POST /cgi-bin/webscr HTTP/1.0\r\n";
-        $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
-        $header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
-        
-		$resp = wp_remote_post( $paypal_url, array( 'ssl' => true, 'body' => $req, 'user-agent' => 'Formidable Paypal' ) );
+
+		$remote_post_vars      = array(
+			'timeout'          => 45,
+			'httpversion'      => '1.1',
+			'headers'          => array(
+				'host'         => self::base_paypal_url(),
+				'connection'   => 'close',
+				'content-type' => 'application/x-www-form-urlencoded',
+				'post'         => '/cgi-bin/webscr HTTP/1.1',
+			),
+			'sslverify'        => false,
+			'body'             => $req,
+		);
+
+		// post back to PayPal system to validate
+		$resp = wp_remote_post( $paypal_url, $remote_post_vars );
         $body = wp_remote_retrieve_body( $resp );
         
         if ( $resp == 'error' || is_wp_error($resp) ) {

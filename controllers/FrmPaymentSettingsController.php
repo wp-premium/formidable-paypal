@@ -141,8 +141,10 @@ class FrmPaymentSettingsController{
         }
 
         $action_control = FrmFormActionsController::get_form_actions( 'paypal' );
-        $form->options['conditions'] = $form->options['paypal_list'];
-        unset($form->options['paypal_list']);
+		if ( isset( $form->options['paypal_list'] ) ) {
+			$form->options['conditions'] = $form->options['paypal_list'];
+			unset($form->options['paypal_list']);
+		}
 
         $post_id = $action_control->migrate_to_2($form);
 
