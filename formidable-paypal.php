@@ -2,7 +2,7 @@
 /*
 Plugin Name: Formidable PayPal Standard
 Description: Send Posted results to PayPal
-Version: 3.05
+Version: 3.06
 Plugin URI: http://formidablepro.com/
 Author URI: http://strategy11.com
 Author: Strategy11
