@@ -44,6 +44,9 @@ class FrmPaymentSettings{
             }
 
             if ( 'ipn_log_file' == $setting ) {
+				if ( $this->settings->{$setting} == '' ) {
+					$this->settings->{$setting} = $default;
+				}
                 $this->settings->{$setting} = stripslashes($this->settings->{$setting});
             }
         }
@@ -106,5 +109,4 @@ class FrmPaymentSettings{
         // Save the posted value in the database
         update_option( 'frm_paypal_options', $this->settings);
     }
-  
 }

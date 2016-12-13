@@ -194,7 +194,7 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
 	public static function create_payment_trigger( $action, $entry, $form ) {
 		if ( ! isset( $action->v2 ) ) {
 			// 2.0 fallback - prevent extra processing
-			remove_action( 'frm_after_create_entry', 'FrmPaymentsController::pre_v2_maybe_redirect', 30, 2 );
+			remove_action( 'frm_after_create_entry', 'FrmPaymentsController::pre_v2_maybe_redirect', 30 );
 		}
 
 		return self::maybe_redirect_for_payment( $action->post_content, $entry, $form );
@@ -560,13 +560,13 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
     public static function paypal_ipn(){
 		if ( ! FrmPaymentsHelper::verify_ipn() ) {
 			FrmPaymentsHelper::log_message( __( 'The payment notification could not be verified.', 'frmpp' ) );
-			return;
+			wp_die();
 		}
 
 		$custom = FrmAppHelper::get_post_param( 'custom', '', 'sanitize_text_field' );
 		if ( empty( $custom ) ) {
 			FrmPaymentsHelper::log_message( __( 'The custom value from PayPal is empty.', 'frmpp' ) );
-			return;
+			wp_die();
 		}
 
         //get entry associated with this payment
@@ -575,13 +575,13 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
 
 		if ( ! self::is_valid_entry_id( $entry_id, $hash ) ) {
 			FrmPaymentsHelper::log_message( __( 'The IPN appears to have been tampered with.', 'frmpp' ) );
-			return;
+			wp_die();
 		}
 
 		$entry = FrmEntry::getOne( $entry_id );
 		if ( ! $entry ) {
 			FrmPaymentsHelper::log_message( __( 'The IPN does not match an existing entry.', 'frmpp' ) );
-			return;
+			wp_die();
 		}
 
 		$invoice = FrmAppHelper::get_post_param( 'invoice', '', 'absint' );
@@ -589,7 +589,11 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
 
         //mark as paid
         global $wpdb;
-		$payment = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'frm_payments WHERE ( id=%d AND item_id=%d AND (receipt_id = %s OR receipt_id = %s) ) OR receipt_id = %s', $invoice, $entry_id, $txn_id, '', $txn_id ) );
+		if ( $invoice ) {
+			$payment = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'frm_payments WHERE ( id=%d AND item_id=%d AND (receipt_id = %s OR receipt_id = %s) ) OR receipt_id = %s', $invoice, $entry_id, $txn_id, '', $txn_id ) );
+		} else {
+			$payment = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'frm_payments WHERE item_id=%d ORDER BY id ASC', $entry_id ) );
+		}
 
 		$payment_gross = FrmAppHelper::get_post_param( 'payment_gross', '', 'sanitize_text_field' );
 		$mc_gross = FrmAppHelper::get_post_param( 'mc_gross', '', 'sanitize_text_field' );
@@ -600,13 +604,13 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
 			self::maybe_create_payment( compact( 'entry', 'amt', 'txn_id' ), $payment );
 			if ( ! $payment ) {
 				FrmPaymentsHelper::log_message( __( 'The IPN does not match an existing payment.', 'frmpp' ) );
-				return;
+				wp_die();
 			}
 		}
 
 		if ( ! self::email_addresses_match( $payment ) ) {
 			FrmPaymentsHelper::log_message( __( 'The receiving email address in the IPN does not match the settings.', 'frmpp' ) );
-			return;
+			wp_die();
 		}
 
 		$pay_vars = (array) $payment;
@@ -635,13 +639,13 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
 
 		if ( $amt != $payment->amount ) {
 			FrmPaymentsHelper::log_message( __( 'Payment amounts do not match.', 'frmpp' ) );
-			return;
+			wp_die();
 		}
 
         $u = $wpdb->update( $wpdb->prefix .'frm_payments', $pay_vars, array( 'id' => $payment->id ) );
         if ( ! $u ) {
             FrmPaymentsHelper::log_message( sprintf( __( 'Payment %d was complete, but failed to update.', 'frmpp' ), $payment->id ) );
-            return;
+            wp_die();
         }
         
 		FrmPaymentsHelper::log_message( __( 'Payment successfully updated.', 'frmpp' ) );
@@ -748,7 +752,8 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
 			}
 
 			$time_to_next = '+' . $paypal_params[ $payment_type . '_num'] .' '. $repeat_times[ $paypal_params[ $payment_type . '_time'] ];
-			$expire_date = date( 'Y-m-d', strtotime( $time_to_next, strtotime( $atts['last_date'] ) ) );
+			$next_date = strtotime( $time_to_next, $atts['last_date'] );
+			$expire_date = date( 'Y-m-d', $next_date );
 		}
 
 		return $expire_date;
@@ -827,9 +832,13 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
 		} else {
 			$form_id = FrmEntriesHelper::get_current_form_id();
 		}
-		$columns[ $form_id . '_payments' ] = __( 'Payments', 'frmpp' );
-		$columns[ $form_id . '_current_payment' ] = __( 'Paid', 'frmpp' );
-		$columns[ $form_id . '_payment_expiration' ] = __( 'Expiration', 'frmpp' );
+
+		if ( $form_id ) {
+			$columns[ $form_id . '_payments' ] = __( 'Payments', 'frmpp' );
+			$columns[ $form_id . '_current_payment' ] = __( 'Paid', 'frmpp' );
+			$columns[ $form_id . '_payment_expiration' ] = __( 'Expiration', 'frmpp' );
+		}
+
 		return $columns;
 	}
 
@@ -845,7 +854,9 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
 	}
 
 	public static function entry_current_payment_column( $value, $atts ) {
-		$value = FrmPaymentEntry::is_expired( $atts['item'] ) ? __( 'Not Paid', 'frmpp' ) : __( 'Paid', 'frmpp' );
+		$payments = FrmPaymentEntry::get_completed_payments( $atts['item'] );
+		$is_current = ! empty( $payments ) && ! FrmPaymentEntry::is_expired( $atts['item'] );
+		$value = $is_current ? __( 'Paid', 'frmpp' ) : __( 'Not Paid', 'frmpp' );
 		return $value;
 	}
 
@@ -868,12 +879,14 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
 		$row['paypal'] = 0;
 		$atts['item'] = $atts['entry'];
 		$row['paypal_expiration'] = self::entry_payment_expiration_column( '', $atts );
-		$row['paypal_complete'] = ! FrmPaymentEntry::is_expired( $atts['entry'] );
 
 		$payments = FrmPaymentEntry::get_completed_payments( $atts['entry'] );
 		foreach ( $payments as $payment ) {
 			$row['paypal'] += $payment->amount;
 		}
+
+		$row['paypal_complete'] = ! empty( $payments ) && ! FrmPaymentEntry::is_expired( $atts['entry'] );
+
 		return $row;
 	}
 

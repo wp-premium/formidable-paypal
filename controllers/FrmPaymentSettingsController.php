@@ -16,6 +16,7 @@ class FrmPaymentSettingsController{
 		add_filter( 'frm_email_action_options', 'FrmPaymentSettingsController::add_trigger_to_action' );
 		add_filter( 'frm_twilio_action_options', 'FrmPaymentSettingsController::add_trigger_to_action' );
 		add_filter( 'frm_mailchimp_action_options', 'FrmPaymentSettingsController::add_trigger_to_action' );
+		add_filter( 'frm_register_action_options', 'FrmPaymentSettingsController::add_payment_trigger_to_register_user_action' );
     }
 
     public static function add_settings_section($sections){
@@ -162,4 +163,22 @@ class FrmPaymentSettingsController{
 		$options['event'][] = 'paypal-failed';
 		return $options;
 	}
+
+	/**
+	 * Add the payment trigger to registration 2.0+
+	 *
+	 * @since 3.06
+	 *
+	 * @param array $options
+	 *
+	 * @return array
+	 */
+	public static function add_payment_trigger_to_register_user_action( $options ) {
+		if ( is_callable( 'FrmRegUserController::register_user' ) ) {
+			$options['event'][] = 'paypal';
+		}
+
+		return $options;
+	}
+
 }
