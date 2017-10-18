@@ -2,8 +2,8 @@
 /*
 Plugin Name: Formidable PayPal Standard
 Description: Send Posted results to PayPal
-Version: 3.06
-Plugin URI: http://formidablepro.com/
+Version: 3.06.01
+Plugin URI: http://formidableforms.com/
 Author URI: http://strategy11.com
 Author: Strategy11
 Text Domain: frmpp

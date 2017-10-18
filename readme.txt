@@ -1,4 +1,9 @@
 == Changelog ==
+= 3.06.01 =
+* New: Add Paypal triggers to API action.
+* Fix: Show update notice for administrators only.
+* Fix: Add missing close select tag in global settings.
+
 = 3.01 =
 * Make sure email settings are trimmed before comparing to the email sent from PayPal
 * Allow amounts with . for thousands and , for decimal. If a . is used in the decimal place for the amount when the currency uses a , make it work anyway
