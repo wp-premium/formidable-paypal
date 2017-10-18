@@ -1,20 +1,23 @@
+# Loco Gettext template
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Formidable Payment v3.06.01\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: Thu Oct 12 2017 10:44:24 GMT-0600 (MDT)\n"
+"POT-Revision-Date: Thu Oct 12 2017 10:39:33 GMT-0600 (MDT)\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: Italian\n"
-"Plural-Forms: nplurals=2; plural=n != 1\n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: Loco - https://localise.biz/\n"
-"X-Poedit-Language: \n"
-"X-Poedit-Country: \n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
 "__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
 "_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
@@ -23,11 +26,76 @@ msgstr ""
 "X-Poedit-Basepath: \n"
 "X-Poedit-Bookmarks: \n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Textdomain-Support: yes\n"
-"X-Loco-Target-Locale: it_IT"
+"X-Textdomain-Support: yes"
+
+#: ../controllers/FrmPaymentsController.php:67 ..
+#: /controllers/FrmPaymentsController.php:845 ..
+#: /controllers/FrmPaymentsController.php:878 ../views/payments/list.php:3 ..
+#: /views/payments/show.php:3 ../views/payments/sidebar_list.php:3
+msgid "Payments"
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:73
+msgid "Receipt ID"
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:74 ../views/payments/show.php:41
+msgid "User"
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:75 ../views/payments/show.php:32 ..
+#: /views/payments/show.php:46
+msgid "Entry"
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:76
+msgid "Form"
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:77 ../helpers/FrmPaymentsHelper.php:
+#: 118 ../views/payments/form.php:9 ../views/payments/show.php:36
+msgid "Completed"
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:78 ../views/payments/form.php:26 ..
+#: /views/payments/show.php:56 ../views/settings/_payment_settings.php:15
+msgid "Amount"
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:79 ../views/payments/form.php:31 ..
+#: /views/payments/show.php:61
+msgid "Date"
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:80
+msgid "Begin Date"
+msgstr ""
 
 #: ../controllers/FrmPaymentsController.php:81
 msgid "Expire Date"
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:82
+msgid "Processor"
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:88
+msgid "Settings"
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:104
+msgid ""
+"You are running an outdated version of Formidable. This plugin may not work "
+"correctly if you do not update Formidable."
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:144 ..
+#: /controllers/FrmPaymentsController.php:994
+msgid "Please select a payment to view"
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:162
+msgid "Downloads"
 msgstr ""
 
 #: ../controllers/FrmPaymentsController.php:346
@@ -67,13 +135,18 @@ msgstr ""
 msgid "Payment amounts do not match."
 msgstr ""
 
+#: ../controllers/FrmPaymentsController.php:655
+#, php-format
+msgid "Payment %d was complete, but failed to update."
+msgstr ""
+
 #: ../controllers/FrmPaymentsController.php:659
 msgid "Payment successfully updated."
 msgstr ""
 
 #: ../controllers/FrmPaymentsController.php:846 ..
-#: controllers/FrmPaymentsController.php:867 ..
-#: controllers/FrmPaymentsController.php:880
+#: /controllers/FrmPaymentsController.php:867 ..
+#: /controllers/FrmPaymentsController.php:880
 msgid "Paid"
 msgstr ""
 
@@ -86,8 +159,40 @@ msgid "Not Paid"
 msgstr ""
 
 #: ../controllers/FrmPaymentsController.php:879 ../views/payments/form.php:36 ..
-#: views/payments/show.php:66
+#: /views/payments/show.php:66
 msgid "Expiration Date"
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:910
+msgid "Payment was Successfully Created"
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:913
+msgid "There was a problem creating that payment"
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:928
+msgid "Payment was Successfully Updated"
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:930
+msgid "There was a problem updating that payment"
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:943
+msgid "Payment was Successfully Deleted"
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:955
+msgid "No payments were selected"
+msgstr ""
+
+#: ../controllers/FrmPaymentsController.php:969
+msgid "Payments were Successfully Deleted"
+msgstr ""
+
+#: ../controllers/FrmPaymentSettingsController.php:68
+msgid "Settings Saved"
 msgstr ""
 
 #: ../controllers/FrmPaymentSettingsController.php:157
@@ -130,12 +235,149 @@ msgstr ""
 msgid "years"
 msgstr ""
 
+#: ../helpers/FrmPaymentsHelper.php:142
+msgid "Australian Dollar"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:147
+msgid "Brazilian Real"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:152
+msgid "Canadian Dollar"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:157
+msgid "Czech Koruna"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:162
+msgid "Danish Krone"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:167
+msgid "Euro"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:172
+msgid "Hong Kong Dollar"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:177
+msgid "Hungarian Forint"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:182
+msgid "Israeli New Sheqel"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:187
+msgid "Japanese Yen"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:192
+msgid "Malaysian Ringgit"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:197
+msgid "Mexican Peso"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:202
+msgid "Norwegian Krone"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:207
+msgid "New Zealand Dollar"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:212
+msgid "Philippine Peso"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:217
+msgid "Polish Zloty"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:222
+msgid "Pound Sterling"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:227
+msgid "Singapore Dollar"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:232
+msgid "Swedish Krona"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:237
+msgid "Swiss Franc"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:242
+msgid "Taiwan New Dollar"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:247
+msgid "Thai Baht"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:252
+msgid "Turkish Liras"
+msgstr ""
+
+#: ../helpers/FrmPaymentsHelper.php:257
+msgid "U.S. Dollar"
+msgstr ""
+
 #: ../helpers/FrmPaymentsHelper.php:262
 msgid "Uruguayan Peso"
 msgstr ""
 
+#: ../helpers/FrmPaymentsHelper.php:363
+msgid "You had an error communicating with the PayPal API."
+msgstr ""
+
+#: ../helpers/FrmPaymentsListHelper.php:41
+msgid "No payments found."
+msgstr ""
+
+#: ../helpers/FrmPaymentsListHelper.php:62 ../helpers/FrmPaymentsListHelper.php:
+#: 143 ../views/payments/edit.php:26 ../views/payments/edit.php:26 ..
+#: /views/payments/show.php:15 ../views/payments/show.php:15
+msgid "Delete"
+msgstr ""
+
 #: ../helpers/FrmPaymentsListHelper.php:71
 msgid "View all forms"
+msgstr ""
+
+#: ../helpers/FrmPaymentsListHelper.php:110 ../views/payments/show.php:37 ..
+#: /views/payments/sidebar_list.php:11
+msgid "Yes"
+msgstr ""
+
+#: ../helpers/FrmPaymentsListHelper.php:110 ../views/payments/show.php:37 ..
+#: /views/payments/sidebar_list.php:11
+msgid "No"
+msgstr ""
+
+#: ../helpers/FrmPaymentsListHelper.php:138 ../helpers/FrmPaymentsListHelper.php:
+#: 142 ../views/payments/show.php:19
+msgid "Edit"
+msgstr ""
+
+#: ../helpers/FrmPaymentsListHelper.php:141 ../views/payments/edit.php:19
+msgid "View"
+msgstr ""
+
+#: ../models/FrmPaymentAction.php:14 ../views/payments/form.php:43
+msgid "PayPal"
+msgstr ""
+
+#: ../models/FrmPaymentSettings.php:86
+msgid "Please enter a valid email address"
 msgstr ""
 
 #: ../views/notices/update_database.php:3
@@ -145,8 +387,80 @@ msgid ""
 "and reactivate the plugin or %2$sUpdate Now%3$s."
 msgstr ""
 
+#: ../views/notices/update_database.php:12
+msgid "Loading&hellip;"
+msgstr ""
+
+#: ../views/payments/edit.php:3
+msgid "Edit Payment"
+msgstr ""
+
+#: ../views/payments/edit.php:4 ../views/payments/list.php:4
+msgid "Add New"
+msgstr ""
+
+#: ../views/payments/edit.php:14 ../views/payments/new.php:12
+msgid "Publish"
+msgstr ""
+
+#: ../views/payments/edit.php:26 ../views/payments/show.php:15
+msgid "Are you sure you want to delete that payment?"
+msgstr ""
+
+#: ../views/payments/edit.php:29 ../views/payments/edit.php:49
+msgid "Update"
+msgstr ""
+
 #: ../views/payments/form.php:2 ../views/payments/show.php:10
 msgid "Payment Details"
+msgstr ""
+
+#: ../views/payments/form.php:14
+msgid "Entry ID"
+msgstr ""
+
+#: ../views/payments/form.php:21 ../views/payments/show.php:51
+msgid "Receipt"
+msgstr ""
+
+#: ../views/payments/form.php:41
+msgid "Payment Method"
+msgstr ""
+
+#: ../views/payments/form.php:44
+msgid "Manual"
+msgstr ""
+
+#: ../views/payments/new.php:3
+msgid "New Payment"
+msgstr ""
+
+#: ../views/payments/new.php:16 ../views/payments/new.php:34
+msgid "Submit"
+msgstr ""
+
+#: ../views/payments/show.php:75
+msgid "Payment Status Updates"
+msgstr ""
+
+#: ../views/settings/_payment_settings.php:4
+msgid "Item Name"
+msgstr ""
+
+#: ../views/settings/_payment_settings.php:9 ../views/settings/form.php:3
+msgid "PayPal Email"
+msgstr ""
+
+#: ../views/settings/_payment_settings.php:17
+msgid "&mdash; Select &mdash;"
+msgstr ""
+
+#: ../views/settings/_payment_settings.php:37
+msgid "Set Amount"
+msgstr ""
+
+#: ../views/settings/_payment_settings.php:38
+msgid "Select Field"
 msgstr ""
 
 #: ../views/settings/_payment_settings.php:44
@@ -193,11 +507,31 @@ msgstr ""
 msgid "Retry a failed payment for a subscription"
 msgstr ""
 
+#: ../views/settings/_payment_settings.php:93
+msgid "Notifications"
+msgstr ""
+
+#: ../views/settings/_payment_settings.php:96
+msgid "Hold email notifications until payment is received."
+msgstr ""
+
 #: ../views/settings/_payment_settings.php:97
 msgid ""
 "Stop all emails set up with this form, including the registration email if "
 "applicable. Send them when the successful payment notification is received "
 "from PayPal."
+msgstr ""
+
+#: ../views/settings/_payment_settings.php:101 ../views/settings/form.php:21
+msgid "Currency"
+msgstr ""
+
+#: ../views/settings/_payment_settings.php:112 ../views/settings/form.php:36
+msgid "Return URL"
+msgstr ""
+
+#: ../views/settings/_payment_settings.php:117 ../views/settings/form.php:44
+msgid "Cancel URL"
 msgstr ""
 
 #: ../views/settings/_payment_settings.php:122
@@ -224,368 +558,34 @@ msgstr ""
 msgid "Value"
 msgstr ""
 
-#: ../controllers/FrmPaymentsController.php:67 ..
-#: controllers/FrmPaymentsController.php:845 ..
-#: controllers/FrmPaymentsController.php:878 ../views/payments/list.php:3 ..
-#: views/payments/show.php:3 ../views/payments/sidebar_list.php:3
-msgid "Payments"
-msgstr "Pagamenti"
-
-#: ../controllers/FrmPaymentsController.php:73
-msgid "Receipt ID"
-msgstr "ID Ricevuta"
-
-#: ../controllers/FrmPaymentsController.php:74 ../views/payments/show.php:41
-msgid "User"
-msgstr "Utente"
-
-#: ../controllers/FrmPaymentsController.php:75 ../views/payments/show.php:32 ..
-#: views/payments/show.php:46
-msgid "Entry"
-msgstr "Voci"
-
-#: ../controllers/FrmPaymentsController.php:76
-msgid "Form"
-msgstr "Modulo"
-
-#: ../controllers/FrmPaymentsController.php:77 ../helpers/FrmPaymentsHelper.php:
-#: 118 ../views/payments/form.php:9 ../views/payments/show.php:36
-msgid "Completed"
-msgstr "Completato"
-
-#: ../controllers/FrmPaymentsController.php:78 ../views/payments/form.php:26 ..
-#: views/payments/show.php:56 ../views/settings/_payment_settings.php:15
-msgid "Amount"
-msgstr "Importo"
-
-#: ../controllers/FrmPaymentsController.php:79 ../views/payments/form.php:31 ..
-#: views/payments/show.php:61
-msgid "Date"
-msgstr "Data"
-
-#: ../controllers/FrmPaymentsController.php:80
-msgid "Begin Date"
-msgstr "Date di inizio"
-
-#: ../controllers/FrmPaymentsController.php:82
-msgid "Processor"
-msgstr "Processore"
-
-#: ../controllers/FrmPaymentsController.php:88
-msgid "Settings"
-msgstr "Impostazioni"
-
-#: ../controllers/FrmPaymentsController.php:104
-msgid ""
-"You are running an outdated version of Formidable. This plugin may not work "
-"correctly if you do not update Formidable."
-msgstr ""
-"Si esegue una versione non aggiornata di Formidable. Questo plugin potrebbe "
-"non funzionare correttamente se non si aggiorna Formidable."
-
-#: ../controllers/FrmPaymentsController.php:144 ..
-#: controllers/FrmPaymentsController.php:994
-msgid "Please select a payment to view"
-msgstr "Per favore seleziona un pagamento da visualizzare"
-
-#: ../controllers/FrmPaymentsController.php:162
-msgid "Downloads"
-msgstr "Download"
-
-#: ../controllers/FrmPaymentsController.php:655
-#, php-format
-msgid "Payment %d was complete, but failed to update."
-msgstr "Pagamento %d è stato completato, ma non è riuscito ad aggiornare."
-
-#: ../controllers/FrmPaymentsController.php:910
-msgid "Payment was Successfully Created"
-msgstr "Il pagamento è stato creato correttamente"
-
-#: ../controllers/FrmPaymentsController.php:913
-msgid "There was a problem creating that payment"
-msgstr "C'è stato un problema durante la creazione del pagamento"
-
-#: ../controllers/FrmPaymentsController.php:928
-msgid "Payment was Successfully Updated"
-msgstr "Il pagamento è stato aggiornato con successo"
-
-#: ../controllers/FrmPaymentsController.php:930
-msgid "There was a problem updating that payment"
-msgstr "C'è stato un problema di aggiornamento del pagamento"
-
-#: ../controllers/FrmPaymentsController.php:943
-msgid "Payment was Successfully Deleted"
-msgstr "Il pagamento è stato eliminato"
-
-#: ../controllers/FrmPaymentsController.php:955
-msgid "No payments were selected"
-msgstr "Nessun pagamento è stato selezionato"
-
-#: ../controllers/FrmPaymentsController.php:969
-msgid "Payments were Successfully Deleted"
-msgstr "I pagamenti sono stati cancellati con successo"
-
-#: ../controllers/FrmPaymentSettingsController.php:68
-msgid "Settings Saved"
-msgstr "Impostazioni Salvate"
-
-#: ../helpers/FrmPaymentsHelper.php:142
-msgid "Australian Dollar"
-msgstr "Dollaro Australiano"
-
-#: ../helpers/FrmPaymentsHelper.php:147
-msgid "Brazilian Real"
-msgstr "Real Brasiliano"
-
-#: ../helpers/FrmPaymentsHelper.php:152
-msgid "Canadian Dollar"
-msgstr "Dollaro Canadese"
-
-#: ../helpers/FrmPaymentsHelper.php:157
-msgid "Czech Koruna"
-msgstr "Corona Ceca"
-
-#: ../helpers/FrmPaymentsHelper.php:162
-msgid "Danish Krone"
-msgstr "Corona Danese"
-
-#: ../helpers/FrmPaymentsHelper.php:167
-msgid "Euro"
-msgstr "Euro"
-
-#: ../helpers/FrmPaymentsHelper.php:172
-msgid "Hong Kong Dollar"
-msgstr "Dollaro Hong Kong"
-
-#: ../helpers/FrmPaymentsHelper.php:177
-msgid "Hungarian Forint"
-msgstr "Fiorino Ungaro"
-
-#: ../helpers/FrmPaymentsHelper.php:182
-msgid "Israeli New Sheqel"
-msgstr "Nuovo Siclo Israeliano"
-
-#: ../helpers/FrmPaymentsHelper.php:187
-msgid "Japanese Yen"
-msgstr "Yen Giapponese"
-
-#: ../helpers/FrmPaymentsHelper.php:192
-msgid "Malaysian Ringgit"
-msgstr "Ringgit Malese"
-
-#: ../helpers/FrmPaymentsHelper.php:197
-msgid "Mexican Peso"
-msgstr "Peso Messicano"
-
-#: ../helpers/FrmPaymentsHelper.php:202
-msgid "Norwegian Krone"
-msgstr "Corona Norvegese"
-
-#: ../helpers/FrmPaymentsHelper.php:207
-msgid "New Zealand Dollar"
-msgstr "Dollaro Neozelandese"
-
-#: ../helpers/FrmPaymentsHelper.php:212
-msgid "Philippine Peso"
-msgstr "Peso Filippino"
-
-#: ../helpers/FrmPaymentsHelper.php:217
-msgid "Polish Zloty"
-msgstr "Złoty Polacco"
-
-#: ../helpers/FrmPaymentsHelper.php:222
-msgid "Pound Sterling"
-msgstr "Sterlina Britannica"
-
-#: ../helpers/FrmPaymentsHelper.php:227
-msgid "Singapore Dollar"
-msgstr "Dollaro Singapore"
-
-#: ../helpers/FrmPaymentsHelper.php:232
-msgid "Swedish Krona"
-msgstr "Corona Svedese"
-
-#: ../helpers/FrmPaymentsHelper.php:237
-msgid "Swiss Franc"
-msgstr "Franco Svizzero"
-
-#: ../helpers/FrmPaymentsHelper.php:242
-msgid "Taiwan New Dollar"
-msgstr "Nuovo Dollato Taiwan"
-
-#: ../helpers/FrmPaymentsHelper.php:247
-msgid "Thai Baht"
-msgstr "Baht Thailandese "
-
-#: ../helpers/FrmPaymentsHelper.php:252
-msgid "Turkish Liras"
-msgstr "Lira Turca"
-
-#: ../helpers/FrmPaymentsHelper.php:257
-msgid "U.S. Dollar"
-msgstr "Dollaro U.S."
-
-#: ../helpers/FrmPaymentsHelper.php:363
-msgid "You had an error communicating with the PayPal API."
-msgstr "Hai avuto un errore di comunicazione con l'API di PayPal."
-
-#: ../helpers/FrmPaymentsListHelper.php:41
-msgid "No payments found."
-msgstr "Nessun pagamento trovato."
-
-#: ../helpers/FrmPaymentsListHelper.php:62 ../helpers/FrmPaymentsListHelper.php:
-#: 143 ../views/payments/edit.php:26 ../views/payments/edit.php:26 ..
-#: views/payments/show.php:15 ../views/payments/show.php:15
-msgid "Delete"
-msgstr "Cancella"
-
-#: ../helpers/FrmPaymentsListHelper.php:110 ../views/payments/show.php:37 ..
-#: views/payments/sidebar_list.php:11
-msgid "Yes"
-msgstr "Si"
-
-#: ../helpers/FrmPaymentsListHelper.php:110 ../views/payments/show.php:37 ..
-#: views/payments/sidebar_list.php:11
-msgid "No"
-msgstr "No"
-
-#: ../helpers/FrmPaymentsListHelper.php:138 ../helpers/FrmPaymentsListHelper.php:
-#: 142 ../views/payments/show.php:19
-msgid "Edit"
-msgstr "Modifica"
-
-#: ../helpers/FrmPaymentsListHelper.php:141 ../views/payments/edit.php:19
-msgid "View"
-msgstr "Visualizza"
-
-#: ../models/FrmPaymentAction.php:14 ../views/payments/form.php:43
-msgid "PayPal"
-msgstr "PayPal"
-
-#: ../models/FrmPaymentSettings.php:86
-msgid "Please enter a valid email address"
-msgstr "Per favore inserisci un indirizzo email valido"
-
-#: ../views/notices/update_database.php:12
-msgid "Loading&hellip;"
-msgstr "Caricamento&hellip;"
-
-#: ../views/payments/edit.php:3
-msgid "Edit Payment"
-msgstr "Modifica Pagamento"
-
-#: ../views/payments/edit.php:4 ../views/payments/list.php:4
-msgid "Add New"
-msgstr "Aggiungi Nuovo"
-
-#: ../views/payments/edit.php:14 ../views/payments/new.php:12
-msgid "Publish"
-msgstr "Pubblica"
-
-#: ../views/payments/edit.php:26 ../views/payments/show.php:15
-msgid "Are you sure you want to delete that payment?"
-msgstr "Sei sicuro di voler eliminare il pagamento?"
-
-#: ../views/payments/edit.php:29 ../views/payments/edit.php:49
-msgid "Update"
-msgstr "Aggiorna"
-
-#: ../views/payments/form.php:14
-msgid "Entry ID"
-msgstr "ID Voce"
-
-#: ../views/payments/form.php:21 ../views/payments/show.php:51
-msgid "Receipt"
-msgstr "Ricevuta"
-
-#: ../views/payments/form.php:41
-msgid "Payment Method"
-msgstr "Metodo Pagamento"
-
-#: ../views/payments/form.php:44
-msgid "Manual"
-msgstr "Manuale"
-
-#: ../views/payments/new.php:3
-msgid "New Payment"
-msgstr "Nuovo Pagamento"
-
-#: ../views/payments/new.php:16 ../views/payments/new.php:34
-msgid "Submit"
-msgstr "Invia"
-
-#: ../views/payments/show.php:75
-msgid "Payment Status Updates"
-msgstr "Aggiornamenti Stato di Pagamento "
-
-#: ../views/settings/_payment_settings.php:4
-msgid "Item Name"
-msgstr "Nome Elemento"
-
-#: ../views/settings/_payment_settings.php:9 ../views/settings/form.php:3
-msgid "PayPal Email"
-msgstr "Email PayPal"
-
-#: ../views/settings/_payment_settings.php:17
-msgid "&mdash; Select &mdash;"
-msgstr "&mdash; Seleziona &mdash;"
-
-#: ../views/settings/_payment_settings.php:37
-msgid "Set Amount"
-msgstr "Imposta Importo"
-
-#: ../views/settings/_payment_settings.php:38
-msgid "Select Field"
-msgstr "Seleziona Campo"
-
-#: ../views/settings/_payment_settings.php:93
-msgid "Notifications"
-msgstr "Notifiche"
-
-#: ../views/settings/_payment_settings.php:96
-msgid "Hold email notifications until payment is received."
-msgstr "Fino a quando il pagamento non è ricevuto tenere le notifiche email."
-
-#: ../views/settings/_payment_settings.php:101 ../views/settings/form.php:21
-msgid "Currency"
-msgstr "Valuta"
-
-#: ../views/settings/_payment_settings.php:112 ../views/settings/form.php:36
-msgid "Return URL"
-msgstr "URL di ritorno"
-
-#: ../views/settings/_payment_settings.php:117 ../views/settings/form.php:44
-msgid "Cancel URL"
-msgstr "URL Cancella"
-
 #: ../views/settings/form.php:11
 msgid "PayPal Environment"
-msgstr "Ambiente PayPal"
+msgstr ""
 
 #: ../views/settings/form.php:14
 msgid "Live"
-msgstr "Dal vivo"
+msgstr ""
 
 #: ../views/settings/form.php:15
 msgid "Testing"
-msgstr "Test"
+msgstr ""
 
 #: ../views/settings/form.php:39
 msgid "The URL for PayPal to send users after purchase"
-msgstr "L'URL di PayPal per reindirizzare gli utenti dopo l'acquisto"
+msgstr ""
 
 #: ../views/settings/form.php:47
 msgid "The URL for PayPal to send users if they cancel the transaction"
-msgstr "L'URL di PayPal per reindirizzare gli utenti se annullano la transazione"
+msgstr ""
 
 #: ../views/settings/form.php:52
 msgid "Log Results"
-msgstr "Log risultati"
+msgstr ""
 
 #: ../views/settings/form.php:54
 msgid "Log results from IPN notifications"
-msgstr "Log risultati di notifiche IPN"
+msgstr ""
 
 #: ../views/settings/form.php:56
 msgid "The location of the error log"
-msgstr "La posizione del log contiene errori"
+msgstr ""

@@ -13,7 +13,7 @@
                 <select name="frm_pay_environment" id="frm_pay_environment">
                     <option value="live" <?php selected($frm_payment_settings->settings->environment, 'live') ?>><?php _e('Live', 'frmpp') ?></option>
                     <option value="sandbox" <?php selected($frm_payment_settings->settings->environment, 'sandbox') ?>><?php _e('Testing', 'frmpp') ?></option>
-    				
+                </select>
         	</td>
         </tr>
         
