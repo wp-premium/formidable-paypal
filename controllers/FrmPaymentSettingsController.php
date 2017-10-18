@@ -17,6 +17,7 @@ class FrmPaymentSettingsController{
 		add_filter( 'frm_twilio_action_options', 'FrmPaymentSettingsController::add_trigger_to_action' );
 		add_filter( 'frm_mailchimp_action_options', 'FrmPaymentSettingsController::add_trigger_to_action' );
 		add_filter( 'frm_register_action_options', 'FrmPaymentSettingsController::add_payment_trigger_to_register_user_action' );
+		add_filter( 'frm_api_action_options', 'FrmPaymentSettingsController::add_trigger_to_action' );
     }
 
     public static function add_settings_section($sections){

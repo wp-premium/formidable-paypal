@@ -112,6 +112,10 @@ class FrmPaymentsController{
 			return;
 		}
 
+		if ( ! current_user_can( 'administrator' ) ) {
+			return;
+		}
+
 		$db_version = get_option( self::$db_opt_name );
 		if ( (int) $db_version < self::$db_version ) {
 			if ( is_callable( 'FrmAppHelper::plugin_url' ) ) {
@@ -121,17 +125,7 @@ class FrmPaymentsController{
 			} else {
 				return;
 			}
-?>
-<div class="error" id="frmpay_install_message" style="padding:7px;"><?php _e( 'Your Formidable Payments database needs to be updated.<br/>Please deactivate and reactivate the plugin to fix this or', 'frmpp' ); ?> <a id="frmpay_install_link" href="javascript:frmpay_install_now()"><?php _e( 'Update Now', 'frmpp' ) ?></a></div>
-<script type="text/javascript">
-function frmpay_install_now(){ 
-jQuery('#frmpay_install_link').replaceWith('<img src="<?php echo esc_url_raw( $url ) ?>/images/wpspin_light.gif" alt="<?php esc_attr_e( 'Loading&hellip;' ); ?>" />');
-jQuery.ajax({type:'POST',url:"<?php echo esc_url_raw( admin_url( 'admin-ajax.php' ) ) ?>",data:'action=frmpay_install',
-success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
-});
-};
-</script>
-<?php
+			include( self::path() . '/views/notices/update_database.php' );
 		}
 	}
 
@@ -264,7 +258,7 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
 
 		// stop the emails if payment is required
 		if ( FrmPaymentsHelper::stop_email_set( $form, $settings ) ) {
-			remove_action( 'frm_trigger_email_action', 'FrmNotification::trigger_email', 10, 3 );
+			self::stop_form_emails();
 			add_filter( 'frm_to_email', 'FrmPaymentsController::stop_the_email', 20, 4 );
 			add_filter( 'frm_send_new_user_notification', 'FrmPaymentsController::stop_registration_email', 10, 3 );
 		}
@@ -277,6 +271,20 @@ success:function(msg){jQuery("#frmpay_install_message").fadeOut('slow');}
 		add_action( 'frm_after_create_entry', 'FrmPaymentsController::redirect_for_payment', 50, 2 );
 
 		return true;
+	}
+
+	/**
+	 * Disable the admin notification emails since most users won't need these
+	 *
+	 * @since 3.07
+	 */
+	private static function stop_form_emails() {
+		if ( is_callable( 'FrmNotification::stop_emails') ) {
+			FrmNotification::stop_emails();
+		} else {
+			remove_action( 'frm_trigger_email_action', 'FrmNotification::trigger_email', 10 );
+		}
+
 	}
 
 	public static function redirect_for_payment( $entry_id, $form_id ) {
