@@ -778,13 +778,13 @@ class FrmPaymentsController{
 			$form_action = FrmPaymentAction::get_payment_action( $pay_vars['action_id'] );
 		}
 
-		self::set_fields_after_payment( $form_action, $pay_vars );
+		self::set_fields_after_payment( $form_action, $pay_vars, $entry );
 
 		$trigger_event = ( $pay_vars['completed'] ) ? 'paypal' : 'paypal-failed';
 		FrmFormActionsController::trigger_actions( $trigger_event, $entry->form_id, $entry->id );
 	}
 
-	public static function set_fields_after_payment( $form_action, $pay_vars ) {
+	public static function set_fields_after_payment( $form_action, $pay_vars, $entry = array() ) {
 		if ( ! is_callable( 'FrmProEntryMeta::update_single_field' ) || empty( $form_action ) || empty( $form_action->post_content['change_field'] ) ) {
 			return;
 		}
@@ -793,13 +793,37 @@ class FrmPaymentsController{
 			$completed = ( $change_field['status'] == 'complete' && $pay_vars['completed'] );
 			$failed = ( $change_field['status'] == 'failed' && ! $pay_vars['completed'] );
 			if ( $completed || $failed ) {
+				$value = self::process_shortcodes( array(
+					'value' => $change_field['value'],
+					'form'  => $form_action->menu_order,
+					'entry' => $entry,
+				) );
+
 				FrmProEntryMeta::update_single_field( array(
 					'entry_id' => $pay_vars['item_id'],
 					'field_id' => $change_field['id'],
-					'value'    => $change_field['value'],
+					'value'    => $value,
 				) );
 			}
 		}
+	}
+
+	/**
+	 * Allow entry values, default values, and other shortcodes
+	 * in the after payment settings
+	 *
+	 * @since 3.07
+	 */
+	private static function process_shortcodes( $atts ) {
+		$value = $atts['value'];
+		if ( is_callable('FrmProFieldsHelper::replace_non_standard_formidable_shortcodes' ) ){
+			FrmProFieldsHelper::replace_non_standard_formidable_shortcodes( array(), $value );
+		}
+		if ( isset( $atts['entry'] ) && ! empty( $atts['entry'] ) ) {
+			$value = apply_filters( 'frm_content', $value, $atts['form'], $atts['entry'] );
+		}
+		$value = do_shortcode( $value );
+		return $value;
 	}
 
 	public static function hidden_payment_fields( $form ) {
