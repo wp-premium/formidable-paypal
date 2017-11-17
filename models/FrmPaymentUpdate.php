@@ -7,7 +7,7 @@ class FrmPaymentUpdate extends FrmAddon {
 	public $plugin_file;
 	public $plugin_name = 'PayPal Standard';
 	public $download_id = 163257;
-	public $version = '3.06.01';
+	public $version = '3.07';
 
 	public function __construct() {
 		$this->plugin_file = dirname( dirname( __FILE__ ) ) . '/formidable-paypal.php';
