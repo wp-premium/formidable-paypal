@@ -154,7 +154,7 @@ class FrmPaymentSettingsController{
     }
 
 	public static function add_payment_trigger( $triggers ) {
-		$triggers['paypal'] = __( 'PayPal payment', 'frmpp' );
+		$triggers['paypal'] = __( 'Successful PayPal payment', 'frmpp' );
 		$triggers['paypal-failed'] = __( 'Failed PayPal payment', 'frmpp' );
 		return $triggers;
 	}
