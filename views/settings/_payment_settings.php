@@ -7,7 +7,7 @@
 		</p>
 
 		<p><label class="frm_left_label"><?php _e( 'PayPal Email', 'frmpp' ) ?></label>
-			<input type="text" name="<?php echo esc_attr( $this->get_field_name( 'business_email' ) ) ?>" id="business_email" value="<?php echo esc_attr( $form_action->post_content['business_email'] ); ?>" class="frm_with_left_label" />
+			<input type="text" name="<?php echo esc_attr( $this->get_field_name( 'business_email' ) ) ?>" id="<?php echo esc_attr( $this->get_field_id( 'business_email' ) ) ?>" value="<?php echo esc_attr( $form_action->post_content['business_email'] ); ?>" class="frm_not_email_to frm_with_left_label" />
 			<span class="clear"></span>
 		</p>
 
@@ -50,7 +50,7 @@
             </p>
 			<div class="frmpp_sub_opts <?php echo $form_action->post_content['paypal_type'] == '_xclick-subscriptions' ? '' : 'frm_hidden'; ?>">
 				<p><label class="frm_left_label"><?php _e( 'Repeat Every', 'frmpp' ) ?></label>
-					<input type="number" name="<?php echo esc_attr( $this->get_field_name( 'repeat_num' ) ) ?>" value="<?php echo esc_attr( $form_action->post_content['repeat_num'] ) ?>" max="90" min="1" step="1" />
+					<input type="text" name="<?php echo esc_attr( $this->get_field_name( 'repeat_num' ) ) ?>" value="<?php echo esc_attr( $form_action->post_content['repeat_num'] ) ?>" id="<?php echo esc_attr( $this->get_field_id( 'repeat_num' ) ) ?>" class="frm_not_email_subject" />
 					<select name="<?php echo esc_attr( $this->get_field_name( 'repeat_time' ) ) ?>">
 					<?php foreach ( FrmPaymentsHelper::get_repeat_times() as $k => $v ) { ?>
 						<option value="<?php echo esc_attr($k) ?>" <?php selected( $form_action->post_content['repeat_time'], $k ) ?>><?php echo $v ?></option>
@@ -67,13 +67,13 @@
 
 				<div class="clear"></div>
 				<p class="frmpp_trial_opts <?php echo $form_action->post_content['trial'] ? '' : 'frm_hidden'; ?>">
-					<label class="frm_left_label"><?php _e( 'Trial amount', 'frmpp' ) ?></label>
-					<input type="text" value="<?php echo esc_attr( $form_action->post_content['trial_amount'] ) ?>" name="<?php echo esc_attr( $this->get_field_name( 'trial_amount' ) ) ?>" />
+					<label class="frm_left_label"><?php _e( 'Trial Amount', 'frmpp' ) ?></label>
+					<input type="text" value="<?php echo esc_attr( $form_action->post_content['trial_amount'] ) ?>" name="<?php echo esc_attr( $this->get_field_name( 'trial_amount' ) ) ?>" id="<?php echo esc_attr( $this->get_field_id( 'trial_amount' ) ) ?>" class="frm_not_email_subject" />
 				</p>
 
 				<p class="frmpp_trial_opts <?php echo $form_action->post_content['trial'] ? '' : 'frm_hidden'; ?>">
 					<label class="frm_left_label"><?php _e( 'Trial Length', 'frmpp' ) ?></label>
-					<input type="number" name="<?php echo esc_attr( $this->get_field_name( 'trial_num' ) ) ?>" value="<?php echo esc_attr( $form_action->post_content['trial_num'] ) ?>" />
+					<input type="text" name="<?php echo esc_attr( $this->get_field_name( 'trial_num' ) ) ?>" value="<?php echo esc_attr( $form_action->post_content['trial_num'] ) ?>" id="<?php echo esc_attr( $this->get_field_id( 'trial_num' ) ) ?>" class="frm_not_email_subject" />
 					<select name="<?php echo esc_attr( $this->get_field_name( 'trial_time' ) ) ?>">
 					<?php foreach ( FrmPaymentsHelper::get_repeat_times() as $k => $v ) { ?>
 						<option value="<?php echo esc_attr($k) ?>" <?php selected( $form_action->post_content['trial_time'], $k ) ?>><?php echo $v ?></option>

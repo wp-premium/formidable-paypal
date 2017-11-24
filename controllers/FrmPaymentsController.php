@@ -296,10 +296,10 @@ class FrmPaymentsController{
 			'action_settings' => $frm_pay_form_settings,
 			'form'     => $form,
 			'entry_id' => $entry_id,
+			'entry'    => FrmEntry::getOne( $entry_id, true ),
 		);
 
-		$entry = FrmEntry::getOne( $entry_id, true );
-		$atts['amount'] = self::get_amount( $atts['form'], $atts['action_settings'], $entry );
+		$atts['amount'] = self::get_amount( $atts['form'], $atts['action_settings'], $atts['entry'] );
 		if ( empty( $atts['amount'] ) ) {
 			return;
 		}
@@ -360,7 +360,7 @@ class FrmPaymentsController{
 
 	public static function get_amount( $form, $settings = array(), $entry = array() ) {
 		if ( empty( $settings ) ) {
-			// for reverse compatability
+			// for reverse compatibility
 			$settings = $form->options;
 		}
 		$amount_field = isset( $settings['paypal_amount_field'] ) ? $settings['paypal_amount_field'] : '';
@@ -378,9 +378,15 @@ class FrmPaymentsController{
 			// no amount has been set
 			return 0;
 		}
-        
-		$frm_payment_settings = new FrmPaymentSettings();
-		$currency = isset( $settings['currency'] ) ? $settings['currency'] : $frm_payment_settings->settings->currency;
+
+		return self::prepare_amount( $amount, $settings );
+	}
+
+	/**
+	 * @since 3.08
+	 */
+	private static function prepare_amount( $amount, $settings ) {
+		$currency = FrmPaymentsHelper::get_action_setting( 'currency', array( 'settings' => $settings ) );
 		$currencies = FrmPaymentsHelper::get_currencies( $currency );
 
 		$total = 0;
@@ -411,16 +417,21 @@ class FrmPaymentsController{
 
 	public static function get_paypal_url( $atts ) {
 
+		$paypal_params = self::prepare_paypal_params( $atts );
+		self::add_invoice_to_url( $atts, $paypal_params );
+
+		return self::convert_array_to_paypal_url( $paypal_params, $atts );
+	}
+
+	/**
+	 * @since 3.08
+	 */
+	private static function prepare_paypal_params( $atts ) {
 		$paypal_params = array(
 			'cmd'           => ( ( isset( $atts['action_settings']['paypal_type'] ) && ! empty( $atts['action_settings']['paypal_type'] ) ) ? $atts['action_settings']['paypal_type'] : '_xclick' ),
 			'notify_url'    => admin_url( 'admin-ajax.php?action=frm_payments_paypal_ipn' ),
-			'business'      => FrmPaymentsHelper::get_action_setting( 'business_email', array( 'settings' => $atts['action_settings'] ) ),
-			'currency_code' => FrmPaymentsHelper::get_action_setting( 'currency', array( 'settings' => $atts['action_settings'] ) ),
-			'return'        => FrmPaymentsHelper::get_action_setting( 'return_url', array( 'settings' => $atts['action_settings'] ) ),
-			'cancel_return' => FrmPaymentsHelper::get_action_setting( 'cancel_url', array( 'settings' => $atts['action_settings'] ) ),
 			'custom'        => $atts['entry_id'] . '|' . wp_hash( $atts['entry_id'] ),
 			'amount'        => $atts['amount'],
-			'item_name'     => $atts['action_settings']['paypal_item_name'],
 			'bn'            => 'FormidablePro_SP',
 		);
 
@@ -428,21 +439,48 @@ class FrmPaymentsController{
 			$paypal_params['lc'] = ICL_LANGUAGE_CODE;
 		}
 
-		$filter_fields = array( 'item_name', 'return', 'cancel_return' );
-		foreach ( $filter_fields as $filter_field ) {
-			$paypal_params[ $filter_field ] = apply_filters( 'frm_content', $paypal_params[ $filter_field ], $atts['form'], $atts['entry_id'] );
-		}
+		self::check_global_fallbacks( $atts['action_settings'] );
+
+		$atts['mapping'] = self::get_base_url_map();
+		self::add_mapping_to_url( $atts, $paypal_params );
 
 		self::prevent_insecure_data_message( $paypal_params );
 		self::add_subscription_params( $atts, $paypal_params );
-		self::add_invoice_to_url( $atts, $paypal_params );
 
+		return $paypal_params;
+	}
+
+	/**
+	 * @since 3.08
+	 */
+	private static function get_base_url_map() {
+		return array(
+			'business'      => array( 'name' => 'business_email', 'allow' => true ),
+			'currency_code' => array( 'name' => 'currency', 'allow' => false ),
+			'item_name'     => array( 'name' => 'paypal_item_name', 'allow' => true ),
+			'return'        => array( 'name' => 'return_url', 'allow' => true ),
+			'cancel_return' => array( 'name' => 'cancel_url', 'allow' => true ),
+		);
+	}
+
+	/**
+	 * @since 3.08
+	 */
+	private static function check_global_fallbacks( &$settings ) {
+		$globals = array( 'business_email', 'currency', 'return_url', 'cancel_url' );
+		foreach ( $globals as $name ) {
+			$settings[ $name ] = FrmPaymentsHelper::get_action_setting( $name, array( 'settings' => $settings ) );
+		}
+	}
+
+	/**
+	 * @since 3.08
+	 */
+	private static function convert_array_to_paypal_url( $paypal_params, $atts ) {
 		$paypal_url = FrmPaymentsHelper::paypal_url();
 		$paypal_url .= '?' . http_build_query( $paypal_params, '', '&' );
 
-		$paypal_url = apply_filters( 'formidable_paypal_url', $paypal_url, $atts['entry_id'], $atts['form']->id );
-
-		return $paypal_url;
+		return apply_filters( 'formidable_paypal_url', $paypal_url, $atts['entry_id'], $atts['form']->id );
 	}
 
 	public static function prevent_insecure_data_message( &$paypal_params ) {
@@ -453,16 +491,55 @@ class FrmPaymentsController{
 
 	public static function add_subscription_params( $atts, &$paypal_params ) {
 		if ( $paypal_params['cmd'] == '_xclick-subscriptions' ) {
+
 			$paypal_params['a3'] = $atts['amount'];
-			$paypal_params['p3'] = $atts['action_settings']['repeat_num'];
-			$paypal_params['t3'] = $atts['action_settings']['repeat_time'];
-			$paypal_params['sra'] = $atts['action_settings']['retry'];
 			$paypal_params['src'] = 1;
 
-			if ( $atts['action_settings']['trial'] ) {
-				$paypal_params['a1'] = $atts['action_settings']['trial_amount'];
-				$paypal_params['p1'] = $atts['action_settings']['trial_num'];
-				$paypal_params['t1'] = $atts['action_settings']['trial_time'];
+			$atts['mapping'] = self::get_subscription_map( $atts['action_settings']['trial'] );
+
+			self::add_mapping_to_url( $atts, $paypal_params );
+		}
+	}
+
+	/**
+	 * @since 3.08
+	 */
+	private static function get_subscription_map( $has_trail ) {
+		$mapping = array(
+			'p3'  => array( 'name' => 'repeat_num', 'sanitize' => 'absint', 'allow' => true ),
+			't3'  => array( 'name' => 'repeat_time', 'allow' => false ),
+			'sra' => array( 'name' => 'retry', 'allow' => false ),
+		);
+
+		if ( $has_trail ) {
+			$mapping['a1'] = array( 'name' => 'trial_amount', 'sanitize' => 'amount', 'allow' => true );
+			$mapping['p1'] = array( 'name' => 'trial_num', 'sanitize' => 'absint', 'allow' => true );
+			$mapping['t1'] = array( 'name' => 'trial_time', 'allow' => false );
+		}
+
+		return $mapping;
+	}
+
+	/**
+	 * @since 3.08
+	 */
+	private static function add_mapping_to_url( $atts, &$paypal_params ) {
+		foreach ( $atts['mapping'] as $param => $setting ) {
+			$paypal_params[ $param ] = $atts['action_settings'][ $setting['name'] ];
+			if ( $setting['allow'] ) {
+				$paypal_params[ $param ] = self::process_shortcodes( array(
+					'value' => $paypal_params[ $param ],
+					'form'  => $atts['form'],
+					'entry' => $atts['entry'],
+				) );
+			}
+
+			if ( isset( $setting['sanitize'] ) ) {
+				if ( $setting['sanitize'] == 'amount' ) {
+					$paypal_params[ $param ] = self::prepare_amount( $paypal_params[ $param ], $atts['action_settings'] );
+				} else {
+					$paypal_params[ $param ] = call_user_func( $setting['sanitize'], $paypal_params[ $param ] );
+				}
 			}
 		}
 	}
@@ -816,14 +893,20 @@ class FrmPaymentsController{
 	 */
 	private static function process_shortcodes( $atts ) {
 		$value = $atts['value'];
+		if ( strpos( $value, '[' ) === false ) {
+			// if there are no shortcodes, we don't need to filter
+			return $value;
+		}
+
 		if ( is_callable('FrmProFieldsHelper::replace_non_standard_formidable_shortcodes' ) ){
 			FrmProFieldsHelper::replace_non_standard_formidable_shortcodes( array(), $value );
 		}
+
 		if ( isset( $atts['entry'] ) && ! empty( $atts['entry'] ) ) {
 			$value = apply_filters( 'frm_content', $value, $atts['form'], $atts['entry'] );
 		}
-		$value = do_shortcode( $value );
-		return $value;
+
+		return do_shortcode( $value );
 	}
 
 	public static function hidden_payment_fields( $form ) {
