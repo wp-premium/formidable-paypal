@@ -21,7 +21,11 @@ class FrmPaymentSettingsController{
     }
 
     public static function add_settings_section($sections){
-        $sections['paypal'] = array('class' => 'FrmPaymentSettingsController', 'function' => 'route');
+        $sections['paypal'] = array(
+			'class'    => 'FrmPaymentSettingsController',
+			'function' => 'route',
+			'icon'     => 'frmfont frm_paypal_icon',
+		);
         return $sections;
     }
     

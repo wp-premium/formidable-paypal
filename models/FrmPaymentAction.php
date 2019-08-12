@@ -4,11 +4,12 @@ class FrmPaymentAction extends FrmFormAction {
 
 	function __construct() {
 		$action_ops = array(
-		    'classes'   => 'frm_paypal_icon frm_icon_font',
-            'active'    => true,
-            'event'     => array('create'),
-            'priority'  => 9, // trigger before emails are sent so they can be stopped
-            'limit'     => 99,
+			'classes'   => 'frm_paypal_icon frm_icon_font',
+			'active'    => true,
+			'event'     => array('create'),
+			'priority'  => 9, // trigger before emails are sent so they can be stopped
+			'limit'     => 99,
+			'color'     => 'var(--primary-hover)',
 		);
 		
 		$this->FrmFormAction( 'paypal', __( 'PayPal', 'frmpp' ), $action_ops );
