@@ -147,7 +147,7 @@ class FrmPaymentsListHelper extends WP_List_Table {
     				case 'user_id':
     				    $val = FrmDb::get_var( $wpdb->prefix .'frm_items', array( 'id' => $item->item_id ), 'user_id' );
     				    if ( class_exists( 'FrmProFieldsHelper' ) ) {
-							$val = FrmProFieldsHelper::get_display_name( $val, 'display_name', array( 'link' => true ) );
+							$val = FrmFieldsHelper::get_user_display_name( $val, 'display_name', array( 'link' => true ) );
 						}
                             
                         break;
