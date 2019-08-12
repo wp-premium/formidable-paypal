@@ -1,7 +1,7 @@
 <?php
 
 class FrmPaymentsController{
-	public static $min_version = '2.0';
+	public static $min_version = '3.0';
 	public static $db_version = 2;
 	public static $db_opt_name = 'frm_pay_db_version';
 
@@ -722,10 +722,7 @@ class FrmPaymentsController{
         
         do_action( 'frm_payment_paypal_ipn', compact( 'pay_vars', 'payment', 'entry' ) );
 
-		if ( $amt != $payment->amount ) {
-			FrmPaymentsHelper::log_message( __( 'Payment amounts do not match.', 'frmpp' ) );
-			wp_die();
-		}
+		self::compare_payment_amount( $amt, $payment );
 
         $u = $wpdb->update( $wpdb->prefix .'frm_payments', $pay_vars, array( 'id' => $payment->id ) );
         if ( ! $u ) {
@@ -742,6 +739,28 @@ class FrmPaymentsController{
         
         wp_die();
     }
+
+	/**
+	 * If the amount doesn't match, check if it matches without tax
+	 * @since 3.09
+	 *
+	 * @param string $amt
+	 * @param object $payment
+	 */
+	private static function compare_payment_amount( $amt, $payment ) {
+		if ( $amt == $payment->amount ) {
+			return;
+		}
+
+		$tax = (float) FrmAppHelper::get_post_param( 'tax', '', 'sanitize_text_field' );
+		if ( $tax ) {
+			$amt = (float) $amt - $tax;
+		}
+		if ( $amt != $payment->amount ) {
+			FrmPaymentsHelper::log_message( esc_html__( 'Payment amounts do not match.', 'frmpp' ) );
+			wp_die();
+		}
+	}
 
 	public static function email_addresses_match( $payment ) {
 		$business	= strtolower( FrmAppHelper::get_post_param( 'business', '', 'sanitize_text_field' ) );
